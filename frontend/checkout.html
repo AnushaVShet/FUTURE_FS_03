@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Checkout | ANVÉRA</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #fbf8f1;
+            color: #394332;
+            font-family: "DM Sans", sans-serif;
+        }
+
+        .announcement {
+            background: #394332;
+            color: white;
+            text-align: center;
+            padding: 9px;
+            font-size: 9px;
+            letter-spacing: .12em;
+        }
+
+        .navbar {
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 7%;
+            background: #fffdf8;
+            border-bottom: 1px solid #e1ddd3;
+        }
+
+        .brand {
+            text-decoration: none;
+            color: #394332;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-symbol {
+            font-size: 22px;
+        }
+
+        .brand-name {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 30px;
+            letter-spacing: 5px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 30px;
+        }
+
+        .navigation a,
+        .bag-link {
+            text-decoration: none;
+            color: #555d50;
+            font-size: 10px;
+            letter-spacing: .12em;
+        }
+
+        .checkout-page {
+            padding: 65px 7% 100px;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .heading small {
+            font-size: 9px;
+            letter-spacing: .15em;
+            color: #737a6c;
+        }
+
+        .heading h1 {
+            margin-top: 10px;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 55px;
+            font-weight: 500;
+        }
+
+        .checkout-layout {
+            max-width: 1150px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 55px;
+        }
+
+        .form-section {
+            margin-bottom: 38px;
+        }
+
+        .section-title {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 9px;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: #60675b;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid #d2ccc0;
+            background: #fffdf8;
+            padding: 13px;
+            font-family: "DM Sans", sans-serif;
+            font-size: 13px;
+            outline: none;
+            color: #394332;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #707966;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .summary {
+            background: #f1ede4;
+            padding: 30px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: grid;
+            grid-template-columns: 65px 1fr auto;
+            gap: 12px;
+            align-items: center;
+            padding: 13px 0;
+            border-bottom: 1px solid #d8d1c5;
+        }
+
+        .summary-item img {
+            width: 65px;
+            height: 78px;
+            object-fit: cover;
+        }
+
+        .item-name {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 17px;
+        }
+
+        .item-meta {
+            margin-top: 4px;
+            font-size: 9px;
+            color: #7a8075;
+        }
+
+        .item-price {
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 11px;
+            color: #686e63;
+        }
+
+        .total {
+            border-top: 1px solid #ccc5b8;
+            margin-top: 10px;
+            padding-top: 18px;
+            font-size: 14px;
+            color: #394332;
+        }
+
+        .place-order {
+            width: 100%;
+            border: none;
+            background: #394332;
+            color: white;
+            padding: 17px;
+            margin-top: 22px;
+            cursor: pointer;
+            font-size: 10px;
+            letter-spacing: .15em;
+        }
+
+        .place-order:hover {
+            background: #293123;
+        }
+
+        .place-order:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .empty {
+            max-width: 700px;
+            margin: auto;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .empty h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .shop-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 25px;
+            background: #394332;
+            color: white;
+            text-decoration: none;
+            font-size: 10px;
+            letter-spacing: .12em;
+        }
+
+        .message {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            padding: 15px 20px;
+            background: #76544b;
+            color: white;
+            font-size: 12px;
+            z-index: 9999;
+        }
+
+        @media (max-width: 850px) {
+
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .summary {
+                position: static;
+            }
+
+            .navigation {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .heading h1 {
+                font-size: 45px;
+            }
+
+            .checkout-page {
+                padding: 45px 5% 70px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="announcement">
+        FREE SHIPPING ON ORDERS ABOVE ₹2,000
+    </div>
+
+
+    <header class="navbar">
+
+        <a href="index.html" class="brand">
+
+            <span class="brand-symbol">❋</span>
+
+            <span class="brand-name">
+                ANVÉRA
+            </span>
+
+        </a>
+
+
+        <nav class="navigation">
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="shop.html">
+                SHOP
+            </a>
+
+            <a href="index.html#collections">
+                COLLECTIONS
+            </a>
+
+        </nav>
+
+
+        <a href="cart.html" class="bag-link">
+            BAG
+            (<span id="bagCount">0</span>)
+        </a>
+
+    </header>
+
+
+    <main class="checkout-page">
+
+        <div class="heading">
+
+            <small>
+                ANVÉRA / CHECKOUT
+            </small>
+
+            <h1>
+                Complete Your Order
+            </h1>
+
+        </div>
+
+
+        <div id="checkoutContent"></div>
+
+    </main>
+
+
+<script>
+
+const API =
+    "http://localhost:8084/api";
+
+
+let cart =
+    JSON.parse(
+        localStorage.getItem("anveraCart")
+    ) || [];
+
+
+function updateBagCount() {
+
+    const count =
+        cart.reduce(
+            (total, item) =>
+                total +
+                Number(item.quantity || 1),
+            0
+        );
+
+    document.getElementById("bagCount")
+        .textContent = count;
+}
+
+
+function getImage(item) {
+
+    if (
+    typeof item.imageUrl === "string" &&
+    item.imageUrl.trim() !== ""
+) {
+        return item.imageUrl;
+    }
+
+    const category =
+        String(item.category || "")
+            .toLowerCase();
+
+    if (category.includes("saree")) {
+        return "images/saree.jpg";
+    }
+
+    if (category.includes("co-ord")) {
+        return "images/coord.jpg";
+    }
+
+    if (category.includes("festive")) {
+        return "images/festive.jpg";
+    }
+
+    return "images/kurta.jpg";
+}
+
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function calculateTotals() {
+
+    const subtotal =
+        cart.reduce(
+            (sum, item) =>
+                sum +
+                Number(item.price) *
+                Number(item.quantity || 1),
+            0
+        );
+
+    const shipping =
+        subtotal >= 2000
+            ? 0
+            : 99;
+
+    return {
+        subtotal: subtotal,
+        shipping: shipping,
+        total: subtotal + shipping
+    };
+}
+
+
+function renderCheckout() {
+
+    updateBagCount();
+
+    const container =
+        document.getElementById(
+            "checkoutContent"
+        );
+
+
+    if (!cart.length) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <h2>
+                    Your bag is empty
+                </h2>
+
+                <p>
+                    Add something beautiful before continuing.
+                </p>
+
+                <a
+                    href="shop.html"
+                    class="shop-button"
+                >
+                    SHOP ANVÉRA
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    const totals =
+        calculateTotals();
+
+
+    container.innerHTML = `
+
+        <div class="checkout-layout">
+
+
+            <form id="checkoutForm">
+
+
+                <section class="form-section">
+
+                    <h2 class="section-title">
+                        Contact Information
+                    </h2>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="full">
+
+                            <label>
+                                Full Name *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="customerName"
+                                required
+                                placeholder="Your full name"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                id="customerEmail"
+                                placeholder="you@example.com"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Phone *
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="customerPhone"
+                                required
+                                maxlength="10"
+                                pattern="[0-9]{10}"
+                                placeholder="10-digit mobile number"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <section class="form-section">
+
+                    <h2 class="section-title">
+                        Delivery Address
+                    </h2>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="full">
+
+                            <label>
+                                Address *
+                            </label>
+
+                            <textarea
+                                id="customerAddress"
+                                required
+                                placeholder="House / Flat / Street / Area"
+                            ></textarea>
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                City *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="customerCity"
+                                required
+                                placeholder="City"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Pincode *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="customerPincode"
+                                required
+                                maxlength="6"
+                                pattern="[0-9]{6}"
+                                placeholder="6-digit pincode"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+            </form>
+
+
+            <aside class="summary">
+
+                <h2>
+                    Your Order
+                </h2>
+
+
+                ${cart.map(item => `
+
+                    <div class="summary-item">
+
+                        <img
+                            src="${getImage(item)}"
+                            alt="${escapeHTML(item.name)}"
+                        >
+
+
+                        <div>
+
+                            <div class="item-name">
+                                ${escapeHTML(item.name)}
+                            </div>
+
+                            <div class="item-meta">
+
+                                Qty:
+                                ${Number(item.quantity || 1)}
+
+                                ${
+                                    item.size
+                                    ? ` · Size ${escapeHTML(item.size)}`
+                                    : ""
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            ₹${(
+                                Number(item.price) *
+                                Number(item.quantity || 1)
+                            ).toLocaleString("en-IN")}
+
+                        </div>
+
+                    </div>
+
+                `).join("")}
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <span>
+                        ₹${totals.subtotal.toLocaleString("en-IN")}
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Shipping
+                    </span>
+
+                    <span>
+
+                        ${
+                            totals.shipping === 0
+                            ? "FREE"
+                            : "₹99"
+                        }
+
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row total">
+
+                    <strong>
+                        TOTAL
+                    </strong>
+
+                    <strong>
+                        ₹${totals.total.toLocaleString("en-IN")}
+                    </strong>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    form="checkoutForm"
+                    class="place-order"
+                    id="placeOrderButton"
+                >
+                    PLACE ORDER
+                </button>
+
+            </aside>
+
+
+        </div>
+
+    `;
+
+
+    document
+        .getElementById("checkoutForm")
+        .addEventListener(
+            "submit",
+            placeOrder
+        );
+
+}
+
+
+async function placeOrder(event) {
+
+    event.preventDefault();
+
+
+    const button =
+        document.getElementById(
+            "placeOrderButton"
+        );
+
+
+    const name =
+        document.getElementById(
+            "customerName"
+        ).value.trim();
+
+
+    const email =
+        document.getElementById(
+            "customerEmail"
+        ).value.trim();
+
+
+    const phone =
+        document.getElementById(
+            "customerPhone"
+        ).value.trim();
+
+
+    const address =
+        document.getElementById(
+            "customerAddress"
+        ).value.trim();
+
+
+    const city =
+        document.getElementById(
+            "customerCity"
+        ).value.trim();
+
+
+    const pincode =
+        document.getElementById(
+            "customerPincode"
+        ).value.trim();
+
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+
+        showMessage(
+            "Please enter a valid 10-digit phone number."
+        );
+
+        return;
+    }
+
+
+    if (!/^[0-9]{6}$/.test(pincode)) {
+
+        showMessage(
+            "Please enter a valid 6-digit pincode."
+        );
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "PLACING ORDER...";
+
+
+    try {
+
+        /*
+         * 1. CREATE CUSTOMER
+         */
+
+        const customerResponse =
+            await fetch(
+                `${API}/customers`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        address: address,
+                        city: city,
+                        pincode: pincode
+
+                    })
+                }
+            );
+
+
+        if (!customerResponse.ok) {
+
+            throw new Error(
+                "Unable to save customer details."
+            );
+
+        }
+
+
+        const customer =
+            await customerResponse.json();
+
+
+        /*
+         * 2. CALCULATE TOTAL
+         */
+
+        const totals =
+            calculateTotals();
+
+
+        /*
+         * 3. CREATE ORDER
+         */
+
+        const orderResponse =
+            await fetch(
+                `${API}/orders`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        customerId:
+                            customer.id,
+
+                        totalAmount:
+                            totals.total,
+
+                        status:
+                            "Pending"
+
+                    })
+                }
+            );
+
+
+        if (!orderResponse.ok) {
+
+            throw new Error(
+                "Unable to create order."
+            );
+
+        }
+
+
+        const order =
+            await orderResponse.json();
+
+
+        /*
+         * 4. CREATE ORDER ITEMS
+         *
+         * Backend now checks stock
+         * and reduces stock automatically.
+         */
+
+        for (const item of cart) {
+
+            const itemResponse =
+                await fetch(
+                    `${API}/orders/${order.id}/items`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            productId:
+                                Number(item.id),
+
+                            quantity:
+                                Number(
+                                    item.quantity || 1
+                                ),
+
+                            price:
+                                Number(item.price)
+
+                        })
+                    }
+                );
+
+
+            if (!itemResponse.ok) {
+
+                let errorMessage =
+                    "Unable to add product to order.";
+
+                try {
+
+                    const errorData =
+                        await itemResponse.json();
+
+                    if (errorData.message) {
+                        errorMessage =
+                            errorData.message;
+                    }
+
+                } catch (e) {
+                    // Keep default error message
+                }
+
+                throw new Error(errorMessage);
+            }
+
+        }
+
+
+        /*
+         * 5. SAVE LOCAL ORDER
+         */
+
+        const previousOrders =
+            JSON.parse(
+                localStorage.getItem(
+                    "anveraOrders"
+                )
+            ) || [];
+
+
+        previousOrders.push({
+
+            id: order.id,
+
+            customerId:
+                customer.id,
+
+            totalAmount:
+                totals.total,
+
+            status:
+                order.status || "Pending",
+
+            orderDate:
+                new Date().toISOString(),
+
+            items:
+                cart.map(item => ({
+
+                    productId:
+                        item.id,
+
+                    name:
+                        item.name,
+
+                    price:
+                        item.price,
+
+                    quantity:
+                        item.quantity,
+
+                    size:
+                        item.size || ""
+
+                }))
+
+        });
+
+
+        localStorage.setItem(
+            "anveraOrders",
+            JSON.stringify(
+                previousOrders
+            )
+        );
+
+
+        /*
+         * 6. CLEAR CART
+         */
+
+        localStorage.removeItem(
+            "anveraCart"
+        );
+
+        cart = [];
+
+
+        /*
+         * 7. SUCCESS
+         */
+
+        window.location.href =
+            `order-success.html?id=${order.id}`;
+
+    } catch (error) {
+
+        console.error(
+            "Checkout error:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Something went wrong while placing your order."
+        );
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "PLACE ORDER";
+
+    }
+
+}
+
+
+function showMessage(message) {
+
+    const old =
+        document.querySelector(
+            ".message"
+        );
+
+    if (old) {
+        old.remove();
+    }
+
+
+    const box =
+        document.createElement("div");
+
+    box.className = "message";
+
+    box.textContent = message;
+
+    document.body.appendChild(box);
+
+
+    setTimeout(
+        () => box.remove(),
+        5000
+    );
+
+}
+
+
+renderCheckout();
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Confirmed | ANVÉRA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #f8f5ed;
+            color: #394332;
+            min-height: 100vh;
+        }
+
+        .announcement {
+            height: 32px;
+            background: #394332;
+            color: #f8f5ed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            letter-spacing: 0.16em;
+        }
+
+        .navbar {
+            height: 82px;
+            background: #f8f5ed;
+            border-bottom: 1px solid #ddd8cc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+
+        .brand {
+            text-decoration: none;
+            color: #394332;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-symbol {
+            font-size: 25px;
+            color: #8c9475;
+        }
+
+        .brand-name {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 30px;
+            font-weight: 600;
+            letter-spacing: 0.13em;
+        }
+
+        .brand small {
+            font-size: 8px;
+            letter-spacing: 0.16em;
+            margin-left: -3px;
+            margin-top: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #394332;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+        }
+
+        .nav-links a:hover {
+            color: #8c9475;
+        }
+
+        .bag-link {
+            text-decoration: none;
+            color: #394332;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+        }
+
+        .success-wrapper {
+            min-height: calc(100vh - 114px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 70px 20px;
+        }
+
+        .success-card {
+            width: 100%;
+            max-width: 760px;
+            background: #fffdf8;
+            border: 1px solid #ded8ca;
+            padding: 65px 70px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(57, 67, 50, 0.08);
+        }
+
+        .success-icon {
+            width: 75px;
+            height: 75px;
+            border: 1px solid #8c9475;
+            border-radius: 50%;
+            margin: 0 auto 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 35px;
+            color: #394332;
+        }
+
+        .eyebrow {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            color: #8c9475;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 55px;
+            font-weight: 500;
+            line-height: 1;
+            color: #394332;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            max-width: 500px;
+            margin: 0 auto;
+            color: #666b5d;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .order-box {
+            margin: 35px auto;
+            padding: 22px;
+            background: #f1eee4;
+            max-width: 450px;
+        }
+
+        .order-label {
+            font-size: 10px;
+            letter-spacing: 0.16em;
+            color: #777b6c;
+            margin-bottom: 7px;
+        }
+
+        .order-number {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 27px;
+            color: #394332;
+        }
+
+        .order-status {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #6f785d;
+            letter-spacing: 0.08em;
+        }
+
+        .order-items {
+            text-align: left;
+            margin: 35px 0;
+            border-top: 1px solid #ded8ca;
+            border-bottom: 1px solid #ded8ca;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid #ebe7dd;
+            font-size: 13px;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            color: #394332;
+        }
+
+        .item-price {
+            white-space: nowrap;
+            color: #555b4d;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 18px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 35px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 28px;
+            text-decoration: none;
+            font-size: 10px;
+            letter-spacing: 0.14em;
+            transition: 0.3s ease;
+        }
+
+        .primary-button {
+            background: #394332;
+            color: #fff;
+        }
+
+        .primary-button:hover {
+            background: #525e49;
+        }
+
+        .secondary-button {
+            border: 1px solid #394332;
+            color: #394332;
+        }
+
+        .secondary-button:hover {
+            background: #394332;
+            color: #fff;
+        }
+
+        .footer-note {
+            margin-top: 35px;
+            color: #858879;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .loading {
+            color: #858879;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .brand small {
+                display: none;
+            }
+
+            .success-card {
+                padding: 45px 25px;
+            }
+
+            h1 {
+                font-size: 42px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="announcement">
+        THANK YOU FOR SHOPPING WITH ANVÉRA
+    </div>
+
+    <header class="navbar">
+
+        <a href="index.html" class="brand">
+            <span class="brand-symbol">❋</span>
+
+            <span class="brand-name">ANVÉRA</span>
+
+            <small>WEAR YOUR STORY</small>
+        </a>
+
+        <nav class="nav-links">
+            <a href="index.html">HOME</a>
+            <a href="shop.html">SHOP</a>
+            <a href="my-orders.html">MY ORDERS</a>
+        </nav>
+
+        <a href="cart.html" class="bag-link">
+            BAG
+        </a>
+
+    </header>
+
+
+    <main class="success-wrapper">
+
+        <section class="success-card">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <p class="eyebrow">
+                ORDER CONFIRMED
+            </p>
+
+            <h1>
+                Thank You.
+            </h1>
+
+            <p class="message">
+                Your order has been placed successfully.
+                We are preparing your ANVÉRA pieces with care.
+            </p>
+
+
+            <div class="order-box">
+
+                <p class="order-label">
+                    ORDER NUMBER
+                </p>
+
+                <div class="order-number" id="orderNumber">
+                    Loading...
+                </div>
+
+                <div class="order-status">
+                    STATUS: PENDING
+                </div>
+
+            </div>
+
+
+            <div id="orderItems" class="order-items">
+
+                <div class="loading">
+                    Loading order details...
+                </div>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <a
+                    href="my-orders.html"
+                    class="button primary-button"
+                >
+                    VIEW MY ORDERS
+                </a>
+
+                <a
+                    href="shop.html"
+                    class="button secondary-button"
+                >
+                    CONTINUE SHOPPING
+                </a>
+
+            </div>
+
+
+            <p class="footer-note">
+                A confirmation of your order has been recorded.
+                Your order status can be tracked from My Orders.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        const API_URL = "http://localhost:8084/api";
+
+        const params = new URLSearchParams(
+            window.location.search
+        );
+
+        const orderId = params.get("id");
+
+
+        function getSavedOrders() {
+
+            return JSON.parse(
+                localStorage.getItem("anveraOrders")
+            ) || [];
+
+        }
+
+
+        function displayOrder(order, items, products) {
+
+            const orderNumber =
+                document.getElementById("orderNumber");
+
+            const orderItems =
+                document.getElementById("orderItems");
+
+
+            orderNumber.textContent =
+                `ANV-${String(order.id).padStart(5, "0")}`;
+
+
+            if (!items || items.length === 0) {
+
+                orderItems.innerHTML = `
+                    <div class="loading">
+                        Order details are available in My Orders.
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            let subtotal = 0;
+
+            let html = "";
+
+
+            items.forEach(item => {
+
+                const product = products.find(
+                    product =>
+                        Number(product.id) ===
+                        Number(item.productId)
+                );
+
+
+                const productName =
+                    product
+                        ? product.name
+                        : `Product #${item.productId}`;
+
+
+                const itemTotal =
+                    Number(item.price) *
+                    Number(item.quantity);
+
+
+                subtotal += itemTotal;
+
+
+                html += `
+                    <div class="item">
+
+                        <span class="item-name">
+                            ${productName}
+                            × ${item.quantity}
+                        </span>
+
+                        <span class="item-price">
+                            ₹${itemTotal.toLocaleString("en-IN")}
+                        </span>
+
+                    </div>
+                `;
+
+            });
+
+
+            html += `
+                <div class="total-row">
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <span>
+                        ₹${Number(order.totalAmount).toLocaleString("en-IN")}
+                    </span>
+
+                </div>
+            `;
+
+
+            orderItems.innerHTML = html;
+
+        }
+
+
+        async function loadOrder() {
+
+            if (!orderId) {
+
+                document.getElementById("orderNumber")
+                    .textContent = "ORDER";
+
+                document.getElementById("orderItems")
+                    .innerHTML = `
+                        <div class="loading">
+                            Order information could not be found.
+                        </div>
+                    `;
+
+                return;
+
+            }
+
+
+            try {
+
+                const [
+                    orderResponse,
+                    itemsResponse,
+                    productsResponse
+                ] = await Promise.all([
+
+                    fetch(
+                        `${API_URL}/orders/${orderId}`
+                    ),
+
+                    fetch(
+                        `${API_URL}/orders/${orderId}/items`
+                    ),
+
+                    fetch(
+                        `${API_URL}/products`
+                    )
+
+                ]);
+
+
+                if (
+                    !orderResponse.ok ||
+                    !itemsResponse.ok ||
+                    !productsResponse.ok
+                ) {
+                    throw new Error(
+                        "Unable to load order"
+                    );
+                }
+
+
+                const order =
+                    await orderResponse.json();
+
+                const items =
+                    await itemsResponse.json();
+
+                const products =
+                    await productsResponse.json();
+
+
+                displayOrder(
+                    order,
+                    items,
+                    products
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Order loading error:",
+                    error
+                );
+
+
+                const savedOrders =
+                    getSavedOrders();
+
+
+                const savedOrder =
+                    savedOrders.find(
+                        order =>
+                            String(order.id) ===
+                            String(orderId)
+                    );
+
+
+                if (savedOrder) {
+
+                    document.getElementById(
+                        "orderNumber"
+                    ).textContent =
+                        `ANV-${String(savedOrder.id).padStart(5, "0")}`;
+
+
+                    document.getElementById(
+                        "orderItems"
+                    ).innerHTML = `
+                        <div class="total-row">
+
+                            <span>
+                                TOTAL
+                            </span>
+
+                            <span>
+                                ₹${Number(savedOrder.totalAmount).toLocaleString("en-IN")}
+                            </span>
+
+                        </div>
+                    `;
+
+                } else {
+
+                    document.getElementById(
+                        "orderNumber"
+                    ).textContent =
+                        `ANV-${String(orderId).padStart(5, "0")}`;
+
+                    document.getElementById(
+                        "orderItems"
+                    ).innerHTML = `
+                        <div class="loading">
+                            Your order was placed successfully.
+                            Please check My Orders for details.
+                        </div>
+                    `;
+
+                }
+
+            }
+
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            loadOrder
+        );
+
+    </script>
+
+</body>
+</html>

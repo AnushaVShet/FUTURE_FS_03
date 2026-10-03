@@ -1,0 +1,17 @@
+# Local Spring Boot configuration
+backend/anvera-backend/src/main/resources/application.properties
+
+# Environment files
+.env
+*.env
+
+# Build files
+**/target/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

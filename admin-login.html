@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANVÉRA | Admin Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f1e8;
+            color: #263226;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-wrapper {
+            width: 420px;
+            max-width: 90%;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-mark {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .brand-name {
+            font-family: Georgia, serif;
+            font-size: 42px;
+            letter-spacing: 8px;
+        }
+
+        .brand-subtitle {
+            margin-top: 8px;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #73786d;
+        }
+
+        .login-card {
+            background: #fffdf8;
+            border: 1px solid #dfdbd0;
+            padding: 40px;
+            border-radius: 14px;
+            box-shadow: 0 15px 45px rgba(38, 50, 38, 0.08);
+        }
+
+        .login-card h1 {
+            font-family: Georgia, serif;
+            font-size: 28px;
+            font-weight: normal;
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            color: #777b72;
+            font-size: 13px;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: #687064;
+            margin-bottom: 7px;
+            letter-spacing: 0.5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d8d4c9;
+            border-radius: 7px;
+            background: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #596650;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: #596650;
+            color: white;
+            font-size: 13px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .login-btn:hover {
+            background: #3f493c;
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            padding: 11px 13px;
+            border-radius: 7px;
+            margin-bottom: 18px;
+            font-size: 13px;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.error {
+            background: #f0dcdc;
+            color: #783f3f;
+        }
+
+        .message.success {
+            background: #dfeadd;
+            color: #385038;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #687064;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-wrapper">
+
+    <div class="brand">
+
+        <div class="brand-mark">✣</div>
+
+        <div class="brand-name">
+            ANVÉRA
+        </div>
+
+        <div class="brand-subtitle">
+            ADMINISTRATION
+        </div>
+
+    </div>
+
+
+    <div class="login-card">
+
+        <h1>Welcome back</h1>
+
+        <p>
+            Sign in to manage your ANVÉRA store.
+        </p>
+
+
+        <div id="message" class="message"></div>
+
+
+        <form id="loginForm">
+
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Enter admin username"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter admin password"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-btn"
+                id="loginButton">
+
+                SIGN IN
+
+            </button>
+
+        </form>
+
+
+        <a href="index.html" class="back-link">
+            ← Back to ANVÉRA store
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API_URL = "http://localhost:8084/api";
+
+const TOKEN_KEY = "anveraAdminToken";
+
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const message =
+    document.getElementById("message");
+
+
+function showMessage(text, type) {
+
+    message.textContent = text;
+
+    message.className =
+        `message show ${type}`;
+}
+
+
+loginForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+
+    loginButton.disabled = true;
+
+    loginButton.textContent = "SIGNING IN...";
+
+    message.className = "message";
+
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/admin/login`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok || !data.success) {
+
+            showMessage(
+                data.message ||
+                "Invalid username or password.",
+                "error"
+            );
+
+            loginButton.disabled = false;
+
+            loginButton.textContent = "SIGN IN";
+
+            return;
+        }
+
+
+        sessionStorage.setItem(
+            TOKEN_KEY,
+            data.token
+        );
+
+        sessionStorage.setItem(
+            "anveraAdminAuthenticated",
+            "true"
+        );
+
+
+        showMessage(
+            "Login successful. Opening dashboard...",
+            "success"
+        );
+
+
+        setTimeout(function() {
+
+            window.location.href = "admin.html";
+
+        }, 500);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Cannot connect to the ANVÉRA server. Make sure Spring Boot is running on port 8084.",
+            "error"
+        );
+
+        loginButton.disabled = false;
+
+        loginButton.textContent = "SIGN IN";
+    }
+
+});
+
+</script>
+
+</body>
+</html>

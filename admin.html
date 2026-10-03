@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANVÉRA — Admin</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f1e8;
+            color: #263226;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: #263226;
+            color: #f8f4ea;
+            padding: 30px 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .logo {
+            font-size: 25px;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 11px;
+            color: #c8c5b8;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+
+        .nav-btn {
+            width: 100%;
+            padding: 13px 15px;
+            border: none;
+            background: transparent;
+            color: #eee9dc;
+            text-align: left;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: #596650;
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
+            background: #eee9dc;
+            color: #263226;
+        }
+
+        .main {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            padding: 35px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-family: Georgia, serif;
+            font-weight: normal;
+            font-size: 32px;
+        }
+
+        .admin-badge {
+            background: #dfe4d8;
+            padding: 9px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #fffdf8;
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px solid #e3dfd4;
+        }
+
+        .stat-card p {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h2 {
+            font-size: 28px;
+            font-weight: normal;
+        }
+
+        .panel {
+            background: #fffdf8;
+            border: 1px solid #e3dfd4;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .panel-header h2 {
+            font-family: Georgia, serif;
+            font-weight: normal;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+        }
+
+        .primary-btn {
+            background: #596650;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 7px;
+        }
+
+        .primary-btn:hover {
+            background: #3f493c;
+        }
+
+        .danger-btn {
+            background: #8b5b57;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .edit-btn {
+            background: #dfe4d8;
+            color: #263226;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-right: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px 10px;
+            border-bottom: 1px solid #e7e2d7;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th {
+            color: #687064;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 12px;
+            color: #687064;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 11px;
+            border: 1px solid #d8d4c9;
+            border-radius: 7px;
+            background: #fff;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            margin-top: 18px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .cancel-btn {
+            padding: 11px 18px;
+            background: #e8e4d9;
+            border-radius: 7px;
+        }
+
+        .message {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 7px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: #dfeadd;
+            color: #385038;
+        }
+
+        .message.error {
+            background: #f0dcdc;
+            color: #783f3f;
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            display: inline-block;
+        }
+
+        .status.Pending {
+            background: #eee5c9;
+        }
+
+        .status.Confirmed {
+            background: #dce7df;
+        }
+
+        .status.Processing {
+            background: #dce3ec;
+        }
+
+        .status.Shipped {
+            background: #e5ddeb;
+        }
+
+        .status.Delivered {
+            background: #d7e7d7;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                width: calc(100% - 190px);
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .logout {
+                position: static;
+                margin-top: 20px;
+            }
+
+            .stats,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                min-width: 700px;
+            }
+
+            .panel {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <div class="logo">ANVÉRA</div>
+        <div class="subtitle">ADMIN PANEL</div>
+
+        <button class="nav-btn active" onclick="showSection('dashboard', this)">
+            Dashboard
+        </button>
+
+        <button class="nav-btn" onclick="showSection('products', this)">
+            Products
+        </button>
+
+        <button class="nav-btn" onclick="showSection('orders', this)">
+            Orders
+        </button>
+
+        <button class="nav-btn" onclick="showSection('customers', this)">
+            Customers
+        </button>
+
+        <button class="nav-btn logout" onclick="logout()">
+            Logout
+        </button>
+
+    </aside>
+
+
+    <main class="main">
+
+        <div class="topbar">
+            <h1 id="pageTitle">Dashboard</h1>
+            <div class="admin-badge">● Admin</div>
+        </div>
+
+
+        <div id="message" class="message"></div>
+
+
+        <!-- DASHBOARD -->
+
+        <section id="dashboard" class="section active">
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <p>Total Products</p>
+                    <h2 id="totalProducts">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Total Orders</p>
+                    <h2 id="totalOrders">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Total Customers</p>
+                    <h2 id="totalCustomers">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Revenue</p>
+                    <h2 id="totalRevenue">₹0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h2>Recent Orders</h2>
+
+                    <button class="primary-btn"
+                            onclick="showSectionByName('orders')">
+                        View All
+                    </button>
+                </div>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Customer ID</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="recentOrders"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- PRODUCTS -->
+
+        <section id="products" class="section">
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h2>Product Management</h2>
+
+                    <button class="primary-btn"
+                            onclick="showProductForm()">
+                        + Add Product
+                    </button>
+                </div>
+
+                <div id="productForm" style="display:none;">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input id="productName" type="text">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Category</label>
+
+                            <select id="productCategory">
+                                <option value="Kurtas">Kurtas</option>
+                                <option value="Sarees">Sarees</option>
+                                <option value="Co-ords">Co-ords</option>
+                                <option value="Festive">Festive</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input id="productPrice" type="number">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Stock</label>
+                            <input id="productStock" type="number">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sizes</label>
+                            <input id="productSizes"
+                                   type="text"
+                                   placeholder="S, M, L, XL">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input id="productImage" type="text">
+                        </div>
+
+                        <div class="form-group full">
+                            <label>Description</label>
+                            <textarea id="productDescription"></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+
+                        <button class="primary-btn"
+                                onclick="saveProduct()">
+                            Save Product
+                        </button>
+
+                        <button class="cancel-btn"
+                                onclick="hideProductForm()">
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="productsTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ORDERS -->
+
+        <section id="orders" class="section">
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h2>Order Management</h2>
+                </div>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer ID</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="ordersTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- CUSTOMERS -->
+
+        <section id="customers" class="section">
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h2>Customers</h2>
+                </div>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>City</th>
+                            <th>Pincode</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="customersTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+const API_URL = "http://localhost:8084/api";
+
+const TOKEN_KEY = "anveraAdminToken";
+
+let editingProductId = null;
+
+
+/* =========================
+   AUTHENTICATION
+========================= */
+
+const token = sessionStorage.getItem(TOKEN_KEY);
+
+if (!token) {
+    window.location.href = "admin-login.html";
+}
+
+
+/* =========================
+   PROTECTED FETCH
+========================= */
+
+async function adminFetch(url, options = {}) {
+
+    const currentToken =
+        sessionStorage.getItem(TOKEN_KEY);
+
+    if (!currentToken) {
+        window.location.href = "admin-login.html";
+        return;
+    }
+
+    options.headers = {
+        ...(options.headers || {}),
+        "X-Admin-Token": currentToken,
+        "Content-Type": "application/json"
+    };
+
+    const response = await fetch(url, options);
+
+    if (response.status === 401) {
+
+        sessionStorage.removeItem(TOKEN_KEY);
+        sessionStorage.removeItem("anveraAdminAuthenticated");
+
+        window.location.href = "admin-login.html";
+
+        return;
+    }
+
+    return response;
+}
+
+
+/* =========================
+   VERIFY LOGIN
+========================= */
+
+async function verifyAdmin() {
+
+    try {
+
+        const response = await adminFetch(
+            `${API_URL}/admin/verify`
+        );
+
+        if (!response) return;
+
+        const data = await response.json();
+
+        if (!data.authenticated) {
+
+            sessionStorage.removeItem(TOKEN_KEY);
+            sessionStorage.removeItem("anveraAdminAuthenticated");
+
+            window.location.href = "admin-login.html";
+
+            return;
+        }
+
+        loadDashboard();
+
+    } catch (error) {
+
+        console.error(error);
+
+        window.location.href = "admin-login.html";
+    }
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showSection(name, button) {
+
+    document.querySelectorAll(".section")
+        .forEach(section => {
+            section.classList.remove("active");
+        });
+
+    document.getElementById(name)
+        .classList.add("active");
+
+    document.querySelectorAll(".nav-btn")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+    const titles = {
+        dashboard: "Dashboard",
+        products: "Products",
+        orders: "Orders",
+        customers: "Customers"
+    };
+
+    document.getElementById("pageTitle")
+        .textContent = titles[name];
+
+    if (name === "dashboard") {
+        loadDashboard();
+    }
+
+    if (name === "products") {
+        loadProducts();
+    }
+
+    if (name === "orders") {
+        loadOrders();
+    }
+
+    if (name === "customers") {
+        loadCustomers();
+    }
+}
+
+
+function showSectionByName(name) {
+
+    const buttons = document.querySelectorAll(".nav-btn");
+
+    buttons.forEach(button => {
+
+        if (
+            button.textContent
+                .trim()
+                .toLowerCase()
+                .includes(name)
+        ) {
+            showSection(name, button);
+        }
+
+    });
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showMessage(text, type = "success") {
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = text;
+
+    message.className =
+        `message show ${type}`;
+
+    setTimeout(() => {
+
+        message.className = "message";
+
+    }, 3000);
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+async function loadDashboard() {
+
+    try {
+
+        const [productsResponse,
+               ordersResponse,
+               customersResponse] =
+            await Promise.all([
+
+                adminFetch(
+                    `${API_URL}/admin/protected/products`
+                ),
+
+                adminFetch(
+                    `${API_URL}/admin/protected/orders`
+                ),
+
+                adminFetch(
+                    `${API_URL}/admin/protected/customers`
+                )
+
+            ]);
+
+        if (!productsResponse ||
+            !ordersResponse ||
+            !customersResponse) {
+            return;
+        }
+
+        const products =
+            await productsResponse.json();
+
+        const orders =
+            await ordersResponse.json();
+
+        const customers =
+            await customersResponse.json();
+
+
+        document.getElementById("totalProducts")
+            .textContent = products.length;
+
+        document.getElementById("totalOrders")
+            .textContent = orders.length;
+
+        document.getElementById("totalCustomers")
+            .textContent = customers.length;
+
+
+        const revenue = orders.reduce(
+            (sum, order) =>
+                sum + Number(order.totalAmount || 0),
+            0
+        );
+
+        document.getElementById("totalRevenue")
+            .textContent =
+            `₹${revenue.toLocaleString("en-IN")}`;
+
+
+        const recent =
+            orders.slice(-5).reverse();
+
+        const tbody =
+            document.getElementById("recentOrders");
+
+        if (recent.length === 0) {
+
+            tbody.innerHTML =
+                `<tr>
+                    <td colspan="4" class="empty">
+                        No orders yet
+                    </td>
+                </tr>`;
+
+            return;
+        }
+
+
+        tbody.innerHTML =
+            recent.map(order => `
+
+                <tr>
+
+                    <td>#${order.id}</td>
+
+                    <td>${order.customerId}</td>
+
+                    <td>
+                        ₹${Number(order.totalAmount || 0)
+                            .toLocaleString("en-IN")}
+                    </td>
+
+                    <td>
+                        <span class="status ${order.status}">
+                            ${order.status}
+                        </span>
+                    </td>
+
+                </tr>
+
+            `).join("");
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Unable to load dashboard.",
+            "error"
+        );
+    }
+}
+
+
+/* =========================
+   PRODUCTS
+========================= */
+
+async function loadProducts() {
+
+    try {
+
+        const response =
+            await adminFetch(
+                `${API_URL}/admin/protected/products`
+            );
+
+        if (!response) return;
+
+        const products =
+            await response.json();
+
+        const tbody =
+            document.getElementById("productsTable");
+
+        if (products.length === 0) {
+
+            tbody.innerHTML =
+                `<tr>
+                    <td colspan="6" class="empty">
+                        No products found.
+                    </td>
+                </tr>`;
+
+            return;
+        }
+
+
+        tbody.innerHTML =
+            products.map(product => `
+
+                <tr>
+
+                    <td>${product.id}</td>
+
+                    <td>${product.name}</td>
+
+                    <td>${product.category}</td>
+
+                    <td>
+                        ₹${Number(product.price)
+                            .toLocaleString("en-IN")}
+                    </td>
+
+                    <td>${product.stock}</td>
+
+                    <td>
+
+                        <button
+                            class="edit-btn"
+                            onclick="editProduct(${product.id})">
+                            Edit
+                        </button>
+
+                        <button
+                            class="danger-btn"
+                            onclick="deleteProduct(${product.id})">
+                            Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `).join("");
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Unable to load products.",
+            "error"
+        );
+    }
+}
+
+
+/* =========================
+   PRODUCT FORM
+========================= */
+
+function showProductForm() {
+
+    editingProductId = null;
+
+    document.getElementById("productForm")
+        .style.display = "block";
+
+    clearProductForm();
+}
+
+
+function hideProductForm() {
+
+    document.getElementById("productForm")
+        .style.display = "none";
+
+    editingProductId = null;
+
+    clearProductForm();
+}
+
+
+function clearProductForm() {
+
+    document.getElementById("productName").value = "";
+    document.getElementById("productCategory").value = "Kurtas";
+    document.getElementById("productPrice").value = "";
+    document.getElementById("productStock").value = "";
+    document.getElementById("productSizes").value = "";
+    document.getElementById("productImage").value = "";
+    document.getElementById("productDescription").value = "";
+}
+
+
+/* =========================
+   SAVE PRODUCT
+========================= */
+
+async function saveProduct() {
+
+    const product = {
+
+        name:
+            document.getElementById("productName").value,
+
+        category:
+            document.getElementById("productCategory").value,
+
+        price:
+            Number(document.getElementById("productPrice").value),
+
+        stock:
+            Number(document.getElementById("productStock").value),
+
+        sizes:
+            document.getElementById("productSizes").value,
+
+        imageUrl:
+            document.getElementById("productImage").value,
+
+        description:
+            document.getElementById("productDescription").value
+    };
+
+
+    if (!product.name ||
+        !product.price ||
+        product.stock < 0) {
+
+        showMessage(
+            "Please enter valid product details.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    try {
+
+        let response;
+
+        if (editingProductId) {
+
+            response = await adminFetch(
+                `${API_URL}/admin/protected/products/${editingProductId}`,
+                {
+                    method: "PUT",
+                    body: JSON.stringify(product)
+                }
+            );
+
+        } else {
+
+            response = await adminFetch(
+                `${API_URL}/admin/protected/products`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(product)
+                }
+            );
+        }
+
+
+        if (!response) return;
+
+        if (!response.ok) {
+
+            throw new Error("Product save failed");
+        }
+
+
+        showMessage(
+            editingProductId
+                ? "Product updated successfully."
+                : "Product added successfully."
+        );
+
+        hideProductForm();
+
+        loadProducts();
+
+        loadDashboard();
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Unable to save product.",
+            "error"
+        );
+    }
+}
+
+
+/* =========================
+   EDIT PRODUCT
+========================= */
+
+async function editProduct(id) {
+
+    try {
+
+        const response =
+            await adminFetch(
+                `${API_URL}/admin/protected/products`
+            );
+
+        if (!response) return;
+
+        const products =
+            await response.json();
+
+        const product =
+            products.find(item => item.id === id);
+
+        if (!product) return;
+
+
+        editingProductId = id;
+
+        document.getElementById("productForm")
+            .style.display = "block";
+
+
+        document.getElementById("productName").value =
+            product.name || "";
+
+        document.getElementById("productCategory").value =
+            product.category || "Kurtas";
+
+        document.getElementById("productPrice").value =
+            product.price || "";
+
+        document.getElementById("productStock").value =
+            product.stock || 0;
+
+        document.getElementById("productSizes").value =
+            product.sizes || "";
+
+        document.getElementById("productImage").value =
+            product.imageUrl || "";
+
+        document.getElementById("productDescription").value =
+            product.description || "";
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Unable to load product.",
+            "error"
+        );
+    }
+}
+
+
+/* =========================
+   DELETE PRODUCT
+========================= */
+
+async function deleteProduct(id) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this product?"
+        );
+
+    if (!confirmed) return;
+
+
+    try {
+
+        const response =
+            await adminFetch(
+                `${API_URL}/admin/protected/products/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+        if (!response) return;
+
+        if (!response.ok) {
+
+            throw new Error("Delete failed");
+        }
+
+
+        showMessage(
+            "Product deleted successfully."
+        );
+
+        loadProducts();
+
+        loadDashboard();
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Unable to delete product.",
+            "error"
+        );
+    }
+}
+
+
+/* =========================
+   ORDERS
+========================= */
+
+async function loadOrders() {
+
+    try {
+
+        const response =
+            await adminFetch(
+                `${API_URL}/admin/protected/orders`
+            );
+
+        if (!response) return;
+
+        const orders =
+            await response.json();
+
+        const tbody =
+            document.getElementById("ordersTable");
+
+
+        if (orders.length === 0) {
+
+            tbody.innerHTML =
+                `<tr>
+                    <td colspan="5" class="empty">
+                        No orders found.
+                    </td>
+                </tr>`;
+
+            return;
+        }
+
+
+        tbody.innerHTML =
+            orders.map(order => `
+
+                <tr>
+
+                    <td>#${order.id}</td>
+
+                    <td>${order.customerId}</td>
+
+                    <td>
+                        ₹${Number(order.totalAmount || 0)
+                            .toLocaleString("en-IN")}
+                    </td>
+
+                    <td>
+                        <span class="status ${order.status}">
+                            ${order.status}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <select
+                            onchange="updateOrderStatus(
+                                ${order.id},
+                                this.value
+                            )">
+
+                            <option
+                                value="Pending"
+                                ${order.status === "Pending" ? "selected" : ""}>
+                                Pending
+                            </option>
+
+                            <option
+                                value="Confirmed"
+                                ${order.status === "Confirmed" ? "selected" : ""}>
+                                Confirmed
+                            </option>
+
+                            <option
+                                value="Processing"
+                                ${order.status === "Processing" ? "selected" : ""}>
+                                Processing
+                            </option>
+
+                            <option
+                                value="Shipped"
+                                ${order.status === "Shipped" ? "selected" : ""}>
+                                Shipped
+                            </option>
+
+                            <option
+                                value="Delivered"
+                                ${order.status === "Delivered" ? "selected" : ""}>
+                                Delivered
+                            </option>
+
+                        </select>
+
+                    </td>
+
+                </tr>
+
+            `).join("");
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Unable to load orders.",
+            "error"
+        );
+    }
+}
+
+
+/* =========================
+   UPDATE ORDER STATUS
+========================= */
+
+async function updateOrderStatus(id, status) {
+
+    try {
+
+        const response =
+            await adminFetch(
+                `${API_URL}/admin/protected/orders/${id}/status`,
+                {
+                    method: "PUT",
+                    body: JSON.stringify({
+                        status: status
+                    })
+                }
+            );
+
+        if (!response) return;
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Order status update failed"
+            );
+        }
+
+
+        showMessage(
+            `Order #${id} updated to ${status}.`
+        );
+
+        loadOrders();
+
+        loadDashboard();
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Unable to update order status.",
+            "error"
+        );
+
+        loadOrders();
+    }
+}
+
+
+/* =========================
+   CUSTOMERS
+========================= */
+
+async function loadCustomers() {
+
+    try {
+
+        const response =
+            await adminFetch(
+                `${API_URL}/admin/protected/customers`
+            );
+
+        if (!response) return;
+
+        const customers =
+            await response.json();
+
+        const tbody =
+            document.getElementById("customersTable");
+
+
+        if (customers.length === 0) {
+
+            tbody.innerHTML =
+                `<tr>
+                    <td colspan="6" class="empty">
+                        No customers found.
+                    </td>
+                </tr>`;
+
+            return;
+        }
+
+
+        tbody.innerHTML =
+            customers.map(customer => `
+
+                <tr>
+
+                    <td>${customer.id}</td>
+
+                    <td>${customer.name}</td>
+
+                    <td>${customer.email || "-"}</td>
+
+                    <td>${customer.phone}</td>
+
+                    <td>${customer.city}</td>
+
+                    <td>${customer.pincode}</td>
+
+                </tr>
+
+            `).join("");
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Unable to load customers.",
+            "error"
+        );
+    }
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout() {
+
+    const currentToken =
+        sessionStorage.getItem(TOKEN_KEY);
+
+    try {
+
+        await fetch(`${API_URL}/admin/logout`, {
+            method: "POST",
+            headers: {
+                "X-Admin-Token": currentToken
+            }
+        });
+
+    } catch (error) {
+
+        console.error("Logout error:", error);
+    }
+
+    sessionStorage.removeItem(TOKEN_KEY);
+
+    sessionStorage.removeItem(
+        "anveraAdminAuthenticated"
+    );
+
+    window.location.replace("admin-login.html");
+}
+/* =========================
+   START
+========================= */
+
+verifyAdmin();
+
+</script>
+
+</body>
+</html>

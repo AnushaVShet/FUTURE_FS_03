@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Shop | ANVÉRA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .shop-page {
+            padding: 65px 7% 90px;
+            min-height: 80vh;
+        }
+
+        .shop-heading {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 45px;
+        }
+
+        .shop-heading .small-heading {
+            color: #707866;
+            margin-bottom: 12px;
+        }
+
+        .shop-heading h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 64px;
+            font-weight: 500;
+            color: #394332;
+            margin-bottom: 10px;
+        }
+
+        .shop-heading p {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 18px;
+            color: #73776c;
+        }
+
+        .shop-controls {
+            border-top: 1px solid #ddd6ca;
+            border-bottom: 1px solid #ddd6ca;
+            padding: 17px 0;
+            margin-bottom: 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .categories {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .category-button {
+            border: none;
+            background: none;
+            color: #565c50;
+            cursor: pointer;
+            font-size: 10px;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .category-button::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 1px;
+            background: #394332;
+            transition: .25s;
+        }
+
+        .category-button:hover::after,
+        .category-button.active::after {
+            width: 100%;
+        }
+
+        .category-button.active {
+            color: #263021;
+        }
+
+        .sort-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sort-area label {
+            font-size: 9px;
+            letter-spacing: .1em;
+            color: #777b72;
+        }
+
+        #sortProducts {
+            border: none;
+            border-bottom: 1px solid #bbb5aa;
+            background: transparent;
+            padding: 7px 4px;
+            color: #454b40;
+            font-size: 10px;
+            outline: none;
+        }
+
+        .shop-products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px 18px;
+        }
+
+        .shop-product-card {
+            min-width: 0;
+        }
+
+        .shop-product-image {
+            position: relative;
+            aspect-ratio: .77;
+            overflow: hidden;
+            background: #e8e1d6;
+        }
+
+        .shop-product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .55s ease;
+        }
+
+        .shop-product-card:hover .shop-product-image img {
+            transform: scale(1.04);
+        }
+
+        .wishlist-button {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 253, 247, .9);
+            color: #394332;
+            font-size: 19px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .shop-product-info {
+            padding-top: 13px;
+        }
+
+        .shop-product-category {
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: .15em;
+            color: #85897f;
+            margin-bottom: 5px;
+        }
+
+        .shop-product-name {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 20px;
+            color: #343a30;
+            margin-bottom: 5px;
+        }
+
+        .shop-product-price {
+            font-size: 12px;
+            color: #44493f;
+            margin-bottom: 10px;
+        }
+
+        .shop-add-button {
+            width: 100%;
+            border: 1px solid #394332;
+            background: transparent;
+            color: #394332;
+            padding: 11px;
+            cursor: pointer;
+            font-size: 9px;
+            letter-spacing: .14em;
+            transition: .25s;
+        }
+
+        .shop-add-button:hover {
+            background: #394332;
+            color: white;
+        }
+
+        .shop-add-button:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+
+        .empty-shop,
+        .shop-loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 20px;
+            color: #777b72;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 20px;
+        }
+
+        @media (max-width: 950px) {
+            .shop-products {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .shop-page {
+                padding: 45px 5% 70px;
+            }
+
+            .shop-heading h1 {
+                font-size: 50px;
+            }
+
+            .shop-controls {
+                display: block;
+            }
+
+            .categories {
+                overflow-x: auto;
+                padding-bottom: 15px;
+                gap: 22px;
+            }
+
+            .sort-area {
+                margin-top: 15px;
+            }
+
+            .shop-products {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 28px 10px;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .shop-product-name {
+                font-size: 17px;
+            }
+
+            .shop-product-image {
+                aspect-ratio: .72;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- TOP BAR -->
+
+    <div class="announcement">
+        FREE SHIPPING ON ORDERS ABOVE ₹2,000
+        <span> | </span>
+        ELEGANT ETHNIC WEAR FOR EVERY YOU
+    </div>
+
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <a href="index.html" class="brand">
+
+            <span class="brand-symbol">
+                ❋
+            </span>
+
+            <span class="brand-name">
+                ANVÉRA
+            </span>
+
+            <small>
+                WEAR YOUR STORY
+            </small>
+
+        </a>
+
+
+        <nav class="navigation">
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="shop.html">
+                SHOP
+            </a>
+
+            <a href="index.html#collections">
+                COLLECTIONS
+            </a>
+
+            <a href="index.html#story">
+                ABOUT
+            </a>
+
+        </nav>
+
+
+        <div class="nav-actions">
+
+            <a href="cart.html">
+
+                ♧
+
+                <span id="bagCount">
+                    0
+                </span>
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- SHOP -->
+
+    <main class="shop-page">
+
+        <section class="shop-heading">
+
+            <p class="small-heading">
+                ANVÉRA / COLLECTION
+            </p>
+
+            <h1>
+                The Collection
+            </h1>
+
+            <p>
+                Thoughtfully designed Indian silhouettes
+                for every occasion.
+            </p>
+
+        </section>
+
+
+        <!-- CONTROLS -->
+
+        <div class="shop-controls">
+
+            <div class="categories">
+
+                <button
+                    class="category-button active"
+                    data-category="All"
+                >
+                    ALL
+                </button>
+
+                <button
+                    class="category-button"
+                    data-category="Kurtas"
+                >
+                    KURTAS
+                </button>
+
+                <button
+                    class="category-button"
+                    data-category="Sarees"
+                >
+                    SAREES
+                </button>
+
+                <button
+                    class="category-button"
+                    data-category="Co-ords"
+                >
+                    CO-ORDS
+                </button>
+
+                <button
+                    class="category-button"
+                    data-category="Festive"
+                >
+                    FESTIVE
+                </button>
+
+            </div>
+
+
+            <div class="sort-area">
+
+                <label for="sortProducts">
+                    SORT BY
+                </label>
+
+                <select id="sortProducts">
+
+                    <option value="featured">
+                        Featured
+                    </option>
+
+                    <option value="low">
+                        Price: Low to High
+                    </option>
+
+                    <option value="high">
+                        Price: High to Low
+                    </option>
+
+                    <option value="name">
+                        Name
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCTS -->
+
+        <section
+            class="shop-products"
+            id="shopProducts"
+        >
+
+            <div class="shop-loading">
+                Loading the collection...
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        const SHOP_API =
+            "http://localhost:8084/api/products";
+
+
+        let allProducts = [];
+
+        let selectedCategory = "All";
+
+
+        /* CART */
+
+        let shopCart =
+            JSON.parse(
+                localStorage.getItem("anveraCart")
+            ) || [];
+
+
+        function updateShopBagCount() {
+
+            const bag =
+                document.getElementById("bagCount");
+
+            if (!bag) return;
+
+            const total =
+                shopCart.reduce(
+                    (sum, item) =>
+                        sum +
+                        Number(item.quantity || 1),
+                    0
+                );
+
+            bag.textContent = total;
+
+        }
+
+
+        /* ADD TO BAG */
+
+        function addProductToBag(product) {
+
+            const existing =
+                shopCart.find(
+                    item =>
+                        item.id === product.id
+                );
+
+
+            if (existing) {
+
+                existing.quantity += 1;
+
+            } else {
+
+                shopCart.push({
+
+                    id: product.id,
+
+                    name: product.name,
+
+                    category: product.category,
+
+                    price: product.price,
+
+                    imageUrl: product.imageUrl,
+
+                    sizes: product.sizes,
+
+                    quantity: 1
+
+                });
+
+            }
+
+
+            localStorage.setItem(
+                "anveraCart",
+                JSON.stringify(shopCart)
+            );
+
+
+            updateShopBagCount();
+
+
+            showShopMessage(
+                "Added to your bag"
+            );
+
+        }
+
+
+        /* WISHLIST */
+
+        function toggleWishlist(product) {
+
+            let wishlist =
+                JSON.parse(
+                    localStorage.getItem(
+                        "anveraWishlist"
+                    )
+                ) || [];
+
+
+            const existingIndex =
+                wishlist.findIndex(
+                    item =>
+                        item.id === product.id
+                );
+
+
+            if (existingIndex >= 0) {
+
+                wishlist.splice(
+                    existingIndex,
+                    1
+                );
+
+            } else {
+
+                wishlist.push(product);
+
+            }
+
+
+            localStorage.setItem(
+                "anveraWishlist",
+                JSON.stringify(wishlist)
+            );
+
+
+            renderProducts();
+
+        }
+
+
+        function isWishlisted(id) {
+
+            const wishlist =
+                JSON.parse(
+                    localStorage.getItem(
+                        "anveraWishlist"
+                    )
+                ) || [];
+
+
+            return wishlist.some(
+                item =>
+                    item.id === id
+            );
+
+        }
+
+
+        /* PRODUCT IMAGE */
+
+        function productImage(product) {
+
+            const savedImage =
+                String(
+                    product.imageUrl || ""
+                ).trim();
+
+
+            /*
+             * If Admin Dashboard contains a full URL,
+             * use it directly.
+             */
+
+            if (
+                savedImage.startsWith("http://") ||
+                savedImage.startsWith("https://")
+            ) {
+
+                return savedImage;
+
+            }
+
+
+            /*
+             * If Admin Dashboard contains:
+             *
+             * product1.jpg
+             *
+             * convert it to:
+             *
+             * images/product1.jpg
+             */
+
+            if (savedImage !== "") {
+
+                let imagePath =
+                    savedImage
+                        .replace(/\\/g, "/")
+                        .replace(/^\.?\//, "");
+
+
+                if (
+                    imagePath.startsWith("images/")
+                ) {
+
+                    return imagePath;
+
+                }
+
+
+                return "images/" + imagePath;
+
+            }
+
+
+            /*
+             * Category fallback
+             */
+
+            const category =
+                String(
+                    product.category || ""
+                ).toLowerCase();
+
+
+            if (
+                category.includes("saree")
+            ) {
+
+                return "images/saree.jpg";
+
+            }
+
+
+            if (
+                category.includes("co-ord")
+            ) {
+
+                return "images/coord.jpg";
+
+            }
+
+
+            if (
+                category.includes("festive")
+            ) {
+
+                return "images/festive.jpg";
+
+            }
+
+
+            return "images/kurta.jpg";
+
+        }
+
+
+        /*
+         * Get the correct fallback image
+         * when a product image cannot be loaded.
+         */
+
+        function categoryFallbackImage(product) {
+
+            const category =
+                String(
+                    product.category || ""
+                ).toLowerCase();
+
+
+            if (
+                category.includes("saree")
+            ) {
+
+                return "images/saree.jpg";
+
+            }
+
+
+            if (
+                category.includes("co-ord")
+            ) {
+
+                return "images/coord.jpg";
+
+            }
+
+
+            if (
+                category.includes("festive")
+            ) {
+
+                return "images/festive.jpg";
+
+            }
+
+
+            return "images/kurta.jpg";
+
+        }
+
+
+        /* DISPLAY PRODUCTS */
+
+        function renderProducts() {
+
+            const container =
+                document.getElementById(
+                    "shopProducts"
+                );
+
+
+            let products =
+                [...allProducts];
+
+
+            /* CATEGORY */
+
+            if (
+                selectedCategory !== "All"
+            ) {
+
+                products =
+                    products.filter(
+                        product =>
+                            product.category ===
+                            selectedCategory
+                    );
+
+            }
+
+
+            /* SEARCH URL */
+
+            const params =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+
+            const search =
+                params.get("search");
+
+
+            if (search) {
+
+                const searchText =
+                    search.toLowerCase();
+
+
+                products =
+                    products.filter(
+                        product =>
+
+                            String(
+                                product.name || ""
+                            )
+                            .toLowerCase()
+                            .includes(searchText)
+
+                            ||
+
+                            String(
+                                product.category || ""
+                            )
+                            .toLowerCase()
+                            .includes(searchText)
+                    );
+
+            }
+
+
+            /* SORT */
+
+            const sort =
+                document.getElementById(
+                    "sortProducts"
+                ).value;
+
+
+            if (sort === "low") {
+
+                products.sort(
+                    (a, b) =>
+                        Number(a.price) -
+                        Number(b.price)
+                );
+
+            }
+
+
+            if (sort === "high") {
+
+                products.sort(
+                    (a, b) =>
+                        Number(b.price) -
+                        Number(a.price)
+                );
+
+            }
+
+
+            if (sort === "name") {
+
+                products.sort(
+                    (a, b) =>
+                        String(a.name || "")
+                            .localeCompare(
+                                String(b.name || "")
+                            )
+                );
+
+            }
+
+
+            /* EMPTY */
+
+            if (products.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="empty-shop">
+
+                        No pieces found
+                        in this collection.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML = "";
+
+
+            /* CREATE CARDS */
+
+            products.forEach(
+                product => {
+
+                    const card =
+                        document.createElement(
+                            "article"
+                        );
+
+
+                    card.className =
+                        "shop-product-card";
+
+
+                    const wished =
+                        isWishlisted(
+                            product.id
+                        );
+
+
+                    const imagePath =
+                        productImage(product);
+
+
+                    const fallbackImage =
+                        categoryFallbackImage(
+                            product
+                        );
+
+
+                    card.innerHTML = `
+
+                        <div
+                            class="shop-product-image"
+                        >
+
+                            <a
+                                href="product.html?id=${product.id}"
+                            >
+
+                                <img
+                                    src="${escapeShopHTML(imagePath)}"
+                                    alt="${escapeShopHTML(product.name)}"
+                                >
+
+                            </a>
+
+
+                            <button
+                                class="wishlist-button"
+                                aria-label="Wishlist"
+                            >
+
+                                ${wished ? "♥" : "♡"}
+
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            class="shop-product-info"
+                        >
+
+                            <div
+                                class="shop-product-category"
+                            >
+
+                                ${escapeShopHTML(
+                                    product.category
+                                )}
+
+                            </div>
+
+
+                            <div
+                                class="shop-product-name"
+                            >
+
+                                ${escapeShopHTML(
+                                    product.name
+                                )}
+
+                            </div>
+
+
+                            <div
+                                class="shop-product-price"
+                            >
+
+                                ₹${Number(
+                                    product.price
+                                ).toLocaleString(
+                                    "en-IN"
+                                )}
+
+                            </div>
+
+
+                            <button
+                                class="shop-add-button"
+                                ${
+                                    Number(product.stock) <= 0
+                                        ? "disabled"
+                                        : ""
+                                }
+                            >
+
+                                ${
+                                    Number(product.stock) > 0
+                                        ? "ADD TO BAG"
+                                        : "SOLD OUT"
+                                }
+
+                            </button>
+
+                        </div>
+
+                    `;
+
+
+                    /*
+                     * If the saved image doesn't exist,
+                     * use the correct category fallback.
+                     */
+
+                    const productImg =
+                        card.querySelector(
+                            ".shop-product-image img"
+                        );
+
+
+                    productImg.addEventListener(
+                        "error",
+                        function () {
+
+                            /*
+                             * Prevent infinite image
+                             * replacement loop.
+                             */
+
+                            if (
+                                this.dataset.fallbackUsed === "true"
+                            ) {
+
+                                return;
+
+                            }
+
+
+                            this.dataset.fallbackUsed =
+                                "true";
+
+
+                            this.src =
+                                fallbackImage;
+
+                        }
+                    );
+
+
+                    /* WISHLIST */
+
+                    card
+                        .querySelector(
+                            ".wishlist-button"
+                        )
+                        .addEventListener(
+                            "click",
+                            function () {
+
+                                toggleWishlist(
+                                    product
+                                );
+
+                            }
+                        );
+
+
+                    /* BAG */
+
+                    const addButton =
+                        card.querySelector(
+                            ".shop-add-button"
+                        );
+
+
+                    if (
+                        Number(product.stock) > 0
+                    ) {
+
+                        addButton.addEventListener(
+                            "click",
+                            function () {
+
+                                addProductToBag(
+                                    product
+                                );
+
+                            }
+                        );
+
+                    }
+
+
+                    container.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* CATEGORY BUTTONS */
+
+        document
+            .querySelectorAll(
+                ".category-button"
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            document
+                                .querySelectorAll(
+                                    ".category-button"
+                                )
+                                .forEach(
+                                    btn =>
+                                        btn.classList
+                                            .remove(
+                                                "active"
+                                            )
+                                );
+
+
+                            this.classList.add(
+                                "active"
+                            );
+
+
+                            selectedCategory =
+                                this.dataset.category;
+
+
+                            renderProducts();
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /* SORT */
+
+        document
+            .getElementById(
+                "sortProducts"
+            )
+            .addEventListener(
+                "change",
+                renderProducts
+            );
+
+
+        /* SECURITY */
+
+        function escapeShopHTML(value) {
+
+            return String(
+                value ?? ""
+            )
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        /* MESSAGE */
+
+        function showShopMessage(message) {
+
+            const existing =
+                document.getElementById(
+                    "shopMessage"
+                );
+
+
+            if (existing) {
+                existing.remove();
+            }
+
+
+            const messageBox =
+                document.createElement(
+                    "div"
+                );
+
+
+            messageBox.id =
+                "shopMessage";
+
+
+            messageBox.textContent =
+                message;
+
+
+            messageBox.style.position =
+                "fixed";
+
+            messageBox.style.right =
+                "25px";
+
+            messageBox.style.bottom =
+                "25px";
+
+            messageBox.style.background =
+                "#394332";
+
+            messageBox.style.color =
+                "#ffffff";
+
+            messageBox.style.padding =
+                "14px 22px";
+
+            messageBox.style.fontSize =
+                "11px";
+
+            messageBox.style.zIndex =
+                "9999";
+
+
+            document.body.appendChild(
+                messageBox
+            );
+
+
+            setTimeout(
+                () => {
+
+                    messageBox.remove();
+
+                },
+                2200
+            );
+
+        }
+
+
+        /* LOAD PRODUCTS */
+
+        async function loadShopProducts() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        SHOP_API
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "API request failed"
+                    );
+
+                }
+
+
+                allProducts =
+                    await response.json();
+
+
+                renderProducts();
+
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+
+
+                document
+                    .getElementById(
+                        "shopProducts"
+                    )
+                    .innerHTML = `
+
+                        <div class="empty-shop">
+
+                            Unable to load
+                            the collection.
+
+                            <br><br>
+
+                            <small>
+
+                                Make sure Spring Boot
+                                is running on port 8084.
+
+                            </small>
+
+                        </div>
+
+                    `;
+
+            }
+
+        }
+
+
+        /* START */
+
+        updateShopBagCount();
+
+        loadShopProducts();
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders | ANVÉRA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #f8f5ed;
+            color: #394332;
+        }
+
+        /* =========================
+           ANNOUNCEMENT
+        ========================= */
+
+        .announcement {
+            height: 32px;
+            background: #394332;
+            color: #f8f5ed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 10px;
+            letter-spacing: 0.16em;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            height: 82px;
+            padding: 0 6%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: #f8f5ed;
+            border-bottom: 1px solid #ded8ca;
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+
+            text-decoration: none;
+            color: #394332;
+        }
+
+
+        .brand-symbol {
+            color: #8c9475;
+            font-size: 25px;
+            margin-right: 10px;
+        }
+
+
+        .brand-name {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 30px;
+            font-weight: 600;
+            letter-spacing: 0.13em;
+        }
+
+
+        .brand small {
+            font-size: 8px;
+            letter-spacing: 0.16em;
+
+            margin-left: 8px;
+            margin-top: 25px;
+        }
+
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+
+        .nav-links a {
+            color: #394332;
+            text-decoration: none;
+
+            font-size: 11px;
+            letter-spacing: 0.12em;
+        }
+
+
+        .nav-links a:hover {
+            color: #8c9475;
+        }
+
+
+        .bag-link {
+            color: #394332;
+            text-decoration: none;
+
+            font-size: 11px;
+            letter-spacing: 0.12em;
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+            text-align: center;
+
+            padding: 75px 20px 55px;
+        }
+
+
+        .eyebrow {
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            color: #8c9475;
+
+            margin-bottom: 15px;
+        }
+
+
+        .page-header h1 {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 56px;
+            font-weight: 500;
+
+            color: #394332;
+            margin-bottom: 15px;
+        }
+
+
+        .page-header p {
+            color: #777b6c;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           ORDERS CONTAINER
+        ========================= */
+
+        .orders-container {
+            width: 90%;
+            max-width: 1050px;
+
+            margin: 0 auto 90px;
+        }
+
+
+        /* =========================
+           ORDER CARD
+        ========================= */
+
+        .order-card {
+            background: #fffdf8;
+
+            border: 1px solid #ded8ca;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 10px 35px rgba(57, 67, 50, 0.05);
+        }
+
+
+        .order-top {
+            padding: 22px 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: #f1eee4;
+
+            border-bottom: 1px solid #ded8ca;
+        }
+
+
+        .order-number-label {
+            font-size: 9px;
+            letter-spacing: 0.15em;
+
+            color: #777b6c;
+
+            margin-bottom: 5px;
+        }
+
+
+        .order-number {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 24px;
+
+            color: #394332;
+        }
+
+
+        .order-date {
+            font-size: 11px;
+            color: #777b6c;
+        }
+
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            padding: 8px 15px;
+
+            border: 1px solid #9ba38b;
+
+            font-size: 9px;
+            letter-spacing: 0.12em;
+
+            color: #59624d;
+
+            background: #f8f5ed;
+        }
+
+
+        .status.pending {
+            border-color: #b6a77b;
+            color: #826f3e;
+        }
+
+
+        .status.confirmed {
+            border-color: #9ba38b;
+            color: #59624d;
+        }
+
+
+        .status.processing {
+            border-color: #8c9b82;
+            color: #53634b;
+        }
+
+
+        .status.shipped {
+            border-color: #82958b;
+            color: #4d6659;
+        }
+
+
+        .status.delivered {
+            border-color: #71816a;
+            color: #43553d;
+        }
+
+
+        /* =========================
+           ORDER BODY
+        ========================= */
+
+        .order-body {
+            padding: 28px;
+        }
+
+
+        .items-title {
+            font-size: 10px;
+            letter-spacing: 0.15em;
+
+            color: #777b6c;
+
+            margin-bottom: 18px;
+        }
+
+
+        .order-item {
+            display: flex;
+            align-items: center;
+
+            gap: 18px;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid #ebe7dd;
+        }
+
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+
+        .item-image {
+            width: 72px;
+            height: 88px;
+
+            object-fit: cover;
+
+            background: #eeeadf;
+        }
+
+
+        .item-details {
+            flex: 1;
+        }
+
+
+        .item-name {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 21px;
+
+            color: #394332;
+
+            margin-bottom: 5px;
+        }
+
+
+        .item-meta {
+            font-size: 11px;
+            color: #858879;
+
+            line-height: 1.7;
+        }
+
+
+        .item-price {
+            font-size: 13px;
+            color: #555b4d;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           ORDER BOTTOM
+        ========================= */
+
+        .order-bottom {
+            padding: 20px 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-top: 1px solid #ded8ca;
+        }
+
+
+        .total-label {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+
+            color: #777b6c;
+        }
+
+
+        .total-price {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 27px;
+
+            color: #394332;
+        }
+
+
+        .view-order {
+            text-decoration: none;
+
+            padding: 12px 22px;
+
+            border: 1px solid #394332;
+
+            color: #394332;
+
+            font-size: 9px;
+            letter-spacing: 0.13em;
+
+            transition: 0.3s ease;
+        }
+
+
+        .view-order:hover {
+            background: #394332;
+            color: white;
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-orders {
+            background: #fffdf8;
+
+            border: 1px solid #ded8ca;
+
+            padding: 80px 30px;
+
+            text-align: center;
+        }
+
+
+        .empty-symbol {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 55px;
+
+            color: #8c9475;
+
+            margin-bottom: 15px;
+        }
+
+
+        .empty-orders h2 {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 38px;
+
+            font-weight: 500;
+
+            margin-bottom: 12px;
+        }
+
+
+        .empty-orders p {
+            color: #777b6c;
+
+            font-size: 13px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .shop-button {
+            display: inline-block;
+
+            padding: 15px 28px;
+
+            background: #394332;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            letter-spacing: 0.14em;
+        }
+
+
+        .shop-button:hover {
+            background: #525e49;
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            text-align: center;
+
+            padding: 80px;
+
+            color: #777b6c;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+
+            .nav-links {
+                display: none;
+            }
+
+
+            .brand small {
+                display: none;
+            }
+
+
+            .page-header {
+                padding: 55px 20px 40px;
+            }
+
+
+            .page-header h1 {
+                font-size: 43px;
+            }
+
+
+            .orders-container {
+                width: 94%;
+            }
+
+
+            .order-top {
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+
+            .order-body {
+                padding: 20px;
+            }
+
+
+            .order-bottom {
+                padding: 20px;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 18px;
+            }
+
+
+            .view-order {
+                width: 100%;
+                text-align: center;
+            }
+
+
+            .item-image {
+                width: 60px;
+                height: 75px;
+            }
+
+
+            .item-name {
+                font-size: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         ANNOUNCEMENT
+    ========================== -->
+
+    <div class="announcement">
+        ELEGANT ETHNIC WEAR · TRADITION, REIMAGINED
+    </div>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header class="navbar">
+
+        <a href="index.html" class="brand">
+
+            <span class="brand-symbol">
+                ❋
+            </span>
+
+            <span class="brand-name">
+                ANVÉRA
+            </span>
+
+            <small>
+                WEAR YOUR STORY
+            </small>
+
+        </a>
+
+
+        <nav class="nav-links">
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="shop.html">
+                SHOP
+            </a>
+
+            <a href="my-orders.html">
+                MY ORDERS
+            </a>
+
+        </nav>
+
+
+        <a href="cart.html" class="bag-link">
+            BAG
+        </a>
+
+    </header>
+
+
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
+
+    <section class="page-header">
+
+        <p class="eyebrow">
+            ANVÉRA
+        </p>
+
+        <h1>
+            My Orders
+        </h1>
+
+        <p>
+            Your ANVÉRA purchases, all in one place.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         ORDERS
+    ========================== -->
+
+    <main class="orders-container" id="ordersContainer">
+
+        <div class="loading">
+            Loading your orders...
+        </div>
+
+    </main>
+
+
+    <script>
+
+        const API_URL = "http://localhost:8084/api";
+
+
+        /*
+         * Get orders saved after checkout.
+         * This is also useful for identifying
+         * the customer's order history.
+         */
+
+        function getSavedOrders() {
+
+            return JSON.parse(
+                localStorage.getItem("anveraOrders")
+            ) || [];
+
+        }
+
+
+        /*
+         * Save an order locally.
+         */
+
+        function saveOrder(order) {
+
+            const orders =
+                getSavedOrders();
+
+            const existingIndex =
+                orders.findIndex(
+                    item =>
+                        String(item.id) ===
+                        String(order.id)
+                );
+
+
+            if (existingIndex >= 0) {
+
+                orders[existingIndex] = {
+                    ...orders[existingIndex],
+                    ...order
+                };
+
+            } else {
+
+                orders.unshift(order);
+
+            }
+
+
+            localStorage.setItem(
+                "anveraOrders",
+                JSON.stringify(orders)
+            );
+
+        }
+
+
+        /*
+         * Product image fallback.
+         */
+
+        function getProductImage(product) {
+
+            if (
+                product &&
+                product.imageUrl &&
+                product.imageUrl.trim() !== ""
+            ) {
+
+                return product.imageUrl;
+
+            }
+
+
+            const category =
+                String(
+                    product?.category || ""
+                ).toLowerCase();
+
+
+            if (category.includes("saree")) {
+
+                return "images/saree.jpg";
+
+            }
+
+
+            if (category.includes("co-ord")) {
+
+                return "images/coord.jpg";
+
+            }
+
+
+            if (category.includes("festive")) {
+
+                return "images/festive.jpg";
+
+            }
+
+
+            return "images/kurta.jpg";
+
+        }
+
+
+        /*
+         * Format order date.
+         */
+
+        function formatDate(dateValue) {
+
+            if (!dateValue) {
+
+                return "Date unavailable";
+
+            }
+
+
+            const date =
+                new Date(dateValue);
+
+
+            if (Number.isNaN(date.getTime())) {
+
+                return "Date unavailable";
+
+            }
+
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        /*
+         * Escape HTML.
+         */
+
+        function escapeHTML(value) {
+
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /*
+         * Create one order card.
+         */
+
+        function createOrderCard(
+            order,
+            items,
+            products
+        ) {
+
+            const orderNumber =
+                `ANV-${String(order.id).padStart(5, "0")}`;
+
+
+            const status =
+                order.status || "Pending";
+
+
+            const statusClass =
+                status
+                    .toLowerCase()
+                    .replace(/\s+/g, "-");
+
+
+            let itemsHTML = "";
+
+
+            if (!items || items.length === 0) {
+
+                itemsHTML = `
+                    <p class="item-meta">
+                        Order items are available in order details.
+                    </p>
+                `;
+
+            } else {
+
+                items.forEach(item => {
+
+                    const product =
+                        products.find(
+                            product =>
+                                Number(product.id) ===
+                                Number(item.productId)
+                        );
+
+
+                    const name =
+                        product
+                            ? product.name
+                            : `Product #${item.productId}`;
+
+
+                    const image =
+                        getProductImage(product);
+
+
+                    const total =
+                        Number(item.price) *
+                        Number(item.quantity);
+
+
+                    itemsHTML += `
+
+                        <div class="order-item">
+
+                            <img
+                                class="item-image"
+                                src="${image}"
+                                alt="${escapeHTML(name)}"
+                                onerror="this.src='images/kurta.jpg'"
+                            >
+
+                            <div class="item-details">
+
+                                <div class="item-name">
+                                    ${escapeHTML(name)}
+                                </div>
+
+                                <div class="item-meta">
+
+                                    Quantity:
+                                    ${item.quantity}
+
+                                    <br>
+
+                                    ₹${Number(item.price).toLocaleString("en-IN")}
+                                    each
+
+                                </div>
+
+                            </div>
+
+                            <div class="item-price">
+
+                                ₹${total.toLocaleString("en-IN")}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                });
+
+            }
+
+
+            return `
+
+                <article class="order-card">
+
+
+                    <div class="order-top">
+
+
+                        <div>
+
+                            <div class="order-number-label">
+                                ORDER NUMBER
+                            </div>
+
+                            <div class="order-number">
+                                ${orderNumber}
+                            </div>
+
+                            <div class="order-date">
+                                ${formatDate(order.orderDate)}
+                            </div>
+
+                        </div>
+
+
+                        <div class="status ${statusClass}">
+                            ${escapeHTML(status).toUpperCase()}
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="order-body">
+
+
+                        <div class="items-title">
+                            ORDER ITEMS
+                        </div>
+
+
+                        ${itemsHTML}
+
+
+                    </div>
+
+
+                    <div class="order-bottom">
+
+
+                        <div>
+
+                            <div class="total-label">
+                                ORDER TOTAL
+                            </div>
+
+                            <div class="total-price">
+                                ₹${Number(order.totalAmount).toLocaleString("en-IN")}
+                            </div>
+
+                        </div>
+
+
+                        <a
+                            href="order-success.html?id=${order.id}"
+                            class="view-order"
+                        >
+                            VIEW ORDER
+                        </a>
+
+
+                    </div>
+
+
+                </article>
+
+            `;
+
+        }
+
+
+        /*
+         * Empty order screen.
+         */
+
+        function showEmptyOrders() {
+
+            const container =
+                document.getElementById(
+                    "ordersContainer"
+                );
+
+
+            container.innerHTML = `
+
+                <section class="empty-orders">
+
+                    <div class="empty-symbol">
+                        ❋
+                    </div>
+
+                    <h2>
+                        No Orders Yet
+                    </h2>
+
+                    <p>
+                        Your ANVÉRA story begins with your
+                        first purchase.
+                    </p>
+
+                    <a
+                        href="shop.html"
+                        class="shop-button"
+                    >
+                        EXPLORE THE COLLECTION
+                    </a>
+
+                </section>
+
+            `;
+
+        }
+
+
+        /*
+         * Load orders.
+         */
+
+        async function loadOrders() {
+
+            const container =
+                document.getElementById(
+                    "ordersContainer"
+                );
+
+
+            const savedOrders =
+                getSavedOrders();
+
+
+            try {
+
+                /*
+                 * Get all orders from backend.
+                 */
+
+                const ordersResponse =
+                    await fetch(
+                        `${API_URL}/orders`
+                    );
+
+
+                if (!ordersResponse.ok) {
+
+                    throw new Error(
+                        "Orders API unavailable"
+                    );
+
+                }
+
+
+                const orders =
+                    await ordersResponse.json();
+
+
+                /*
+                 * Get products.
+                 */
+
+                const productsResponse =
+                    await fetch(
+                        `${API_URL}/products`
+                    );
+
+
+                if (!productsResponse.ok) {
+
+                    throw new Error(
+                        "Products API unavailable"
+                    );
+
+                }
+
+
+                const products =
+                    await productsResponse.json();
+
+
+                /*
+                 * If backend contains no orders,
+                 * use locally saved orders.
+                 */
+
+                const allOrders =
+                    orders.length > 0
+                        ? orders
+                        : savedOrders;
+
+
+                if (allOrders.length === 0) {
+
+                    showEmptyOrders();
+
+                    return;
+
+                }
+
+
+                /*
+                 * Newest orders first.
+                 */
+
+                allOrders.sort(
+                    (a, b) =>
+                        Number(b.id) -
+                        Number(a.id)
+                );
+
+
+                let html = "";
+
+
+                /*
+                 * Load order items.
+                 */
+
+                for (
+                    const order
+                    of allOrders
+                ) {
+
+                    let items = [];
+
+
+                    try {
+
+                        const itemsResponse =
+                            await fetch(
+                                `${API_URL}/orders/${order.id}/items`
+                            );
+
+
+                        if (itemsResponse.ok) {
+
+                            items =
+                                await itemsResponse.json();
+
+                        }
+
+                    } catch (error) {
+
+                        console.log(
+                            "Could not load items for order",
+                            order.id
+                        );
+
+                    }
+
+
+                    /*
+                     * Keep local copy updated.
+                     */
+
+                    saveOrder(order);
+
+
+                    html += createOrderCard(
+                        order,
+                        items,
+                        products
+                    );
+
+                }
+
+
+                container.innerHTML =
+                    html;
+
+
+            } catch (error) {
+
+                console.error(
+                    "Orders loading error:",
+                    error
+                );
+
+
+                /*
+                 * Backend unavailable:
+                 * display saved orders if available.
+                 */
+
+                if (savedOrders.length > 0) {
+
+                    let html = "";
+
+
+                    savedOrders.forEach(
+                        order => {
+
+                            html += createOrderCard(
+                                order,
+                                [],
+                                []
+                            );
+
+                        }
+                    );
+
+
+                    container.innerHTML =
+                        html;
+
+                } else {
+
+                    showEmptyOrders();
+
+                }
+
+            }
+
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            loadOrders
+        );
+
+    </script>
+
+
+</body>
+
+</html>
