@@ -1,4 +1,4 @@
-const API="http://localhost:8084/api/products";let all=[];let category="All";
+const API="https://futurefs03-production-a9fd.up.railway.app/api/products";let all=[];let category="All";
 const imgs=["https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1610030469983-98e550d1b7e7?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=900&q=85"];
 function money(n){return "₹"+Number(n).toLocaleString("en-IN",{maximumFractionDigits:0})}
 function bag(){return JSON.parse(localStorage.getItem("anveraBag")||"[]")}
