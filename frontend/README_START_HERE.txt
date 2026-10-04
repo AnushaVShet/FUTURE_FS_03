@@ -12,7 +12,7 @@ FILES
 
 BACKEND
 The frontend expects your Spring Boot API at:
-http://localhost:8084/api/products
+https://futurefs03-production-a9fd.up.railway.app/api/products
 
 IMPORTANT
 1. Keep Spring Boot running on port 8084.
