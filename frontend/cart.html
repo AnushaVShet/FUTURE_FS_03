@@ -778,55 +778,54 @@
            IMAGE
            ========================================= */
 
-        function getCartImage(item) {
+       
+            
+                
+          function getCartImage(item) {
 
-            if (
-                item.imageUrl &&
-                item.imageUrl.trim() !== ""
-            ) {
+    if (!item) {
+        return "images/kurta.jpg";
+    }
 
-                return item.imageUrl;
+    let image = item.imageUrl || "";
 
-            }
+    image = String(image)
+        .trim()
+        .replace(/\\/g, "/");
 
+    if (image !== "") {
 
-            const category =
-                String(
-                    item.category || ""
-                ).toLowerCase();
-
-
-            if (
-                category.includes("saree")
-            ) {
-
-                return "images/saree.jpg";
-
-            }
-
-
-            if (
-                category.includes("co-ord")
-            ) {
-
-                return "images/coord.jpg";
-
-            }
-
-
-            if (
-                category.includes("festive")
-            ) {
-
-                return "images/festive.jpg";
-
-            }
-
-
-            return "images/kurta.jpg";
-
+        if (
+            image.startsWith("http://") ||
+            image.startsWith("https://")
+        ) {
+            return image;
         }
 
+        if (image.startsWith("images/")) {
+            return image;
+        }
+
+        return "images/" + image;
+    }
+
+    const category =
+        String(item.category || "").toLowerCase();
+
+    if (category.includes("saree")) {
+        return "images/saree.jpg";
+    }
+
+    if (category.includes("co-ord")) {
+        return "images/coord.jpg";
+    }
+
+    if (category.includes("festive")) {
+        return "images/festive.jpg";
+    }
+
+    return "images/kurta.jpg";
+}
 
         /* =========================================
            RENDER CART
