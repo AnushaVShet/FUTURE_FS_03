@@ -2,7 +2,7 @@
    ANVÉRA — HOMEPAGE JAVASCRIPT
    ========================================================= */
 
-const API_URL = "http://localhost:8084/api";
+const API_URL = "https://futurefs03-production-a9fd.up.railway.app/api";
 
 
 // =========================================================
